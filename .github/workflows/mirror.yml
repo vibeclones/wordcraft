@@ -8,6 +8,10 @@ on:
       tag:
         description: "Upstream release tag to mirror (blank = latest)"
         required: false
+      limit:
+        description: "How many recent upstream releases to look at"
+        required: false
+        default: "40"
 
 permissions:
   contents: write
@@ -26,6 +30,7 @@ jobs:
           UPSTREAM: storytold/wordcraft
           NAME: wordcraft
           TAG: ${{ inputs.tag }}
+          LIMIT: ${{ inputs.limit || '40' }}
         run: bash scripts/mirror.sh
       - name: Commit and request a Pages build
         env:
