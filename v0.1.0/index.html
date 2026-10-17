@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>WordCraft</title>
+  
+<script type="module">
+import init, * as bindings from './wordcraft-web-efe2465bdf20fd55.js';
+const wasm = await init({ module_or_path: './wordcraft-web-efe2465bdf20fd55_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #e6e6e6; }
+    #wordcraft_canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    #wordcraft_loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: #555; font: 14px system-ui, sans-serif; pointer-events: none; }
+  </style>
+<link rel="modulepreload" href="./wordcraft-web-efe2465bdf20fd55.js" crossorigin="anonymous" integrity="sha384-rSr23CcHeCS+VYOidE0SdsZLIyRMjirPBUKcyGGQOARW5Hi4RxH1KWiEV1jiIWmf"><link rel="preload" href="./wordcraft-web-efe2465bdf20fd55_bg.wasm" crossorigin="anonymous" integrity="sha384-L3fqUivqRIpjb4YmY3vFsxlhk5jhZ4OOSZ9l3xRLOhoZGWvOSyNiqMfTE09k2FC9" as="fetch" type="application/wasm"></head>
+<body>
+  <canvas id="wordcraft_canvas"></canvas>
+  <div id="wordcraft_loading">Loading WordCraft&hellip;</div>
+</body>
+</html>
