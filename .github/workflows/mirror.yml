@@ -9,7 +9,7 @@ on:
         description: "Upstream release tag to mirror (blank = latest)"
         required: false
       limit:
-        description: "How many recent upstream releases to look at"
+        description: "How many recent upstream releases to look at, or 'taste' to thin the whole history toward the past"
         required: false
         default: "40"
 

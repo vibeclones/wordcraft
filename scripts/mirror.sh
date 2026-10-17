@@ -14,7 +14,12 @@ CAP_MB="${CAP_MB:-800}"
 if [ -n "${TAG:-}" ]; then
   tags="$TAG"
 else
-  tags=$(gh release list -R "$UPSTREAM" --limit "$LIMIT" --exclude-drafts --exclude-pre-releases --json tagName -q '.[].tagName')
+  if [ "$LIMIT" = taste ]; then
+    # Thin the history toward the past (see pick.py) instead of taking a hard cutoff.
+    tags=$(gh release list -R "$UPSTREAM" --limit 400 --exclude-drafts --exclude-pre-releases --json tagName,publishedAt | python3 scripts/pick.py)
+  else
+    tags=$(gh release list -R "$UPSTREAM" --limit "$LIMIT" --exclude-drafts --exclude-pre-releases --json tagName -q '.[].tagName')
+  fi
 fi
 
 for tag in $tags; do
