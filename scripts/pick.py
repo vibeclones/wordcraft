@@ -10,8 +10,9 @@ Taste: recent releases are kept densely, older ones sparsely.
   - everything else is bucketed by age, and only the last release in each bucket survives:
       under a week old: one per day;  under a month: one per 3 days;
       under 3 months: one per week;   under a year: one per month;  older: one per quarter
-  - if that leaves fewer than BUDGET (default 20), the biggest gaps in the timeline are filled in, so a young or
-    fast-moving project doesn't end up with a thin history
+  - but none of this applies while the whole history fits under the size cap (CAP_MB, default 800; sizes are
+    estimated from the versions already hosted). Thinning only starts when space runs out, and then the biggest
+    gaps in the timeline are filled back in up to what fits, so the history is never thinner than it must be
 """
 import json, os, re, sys
 from datetime import datetime, timezone
@@ -46,7 +47,18 @@ if rels:
 # A young or fast-moving project has many releases in a short time, which the age buckets would thin too hard.
 # Top up to a budget by repeatedly adding the release that sits in the biggest gap between kept neighbours,
 # so the extra versions spread evenly along the timeline.
-BUDGET = int(os.environ.get("BUDGET", "20"))
+def hosted_mb():
+    """Average unpacked size of the versions already hosted in the current folder (40 MB if there are none)."""
+    sizes = []
+    for d in os.listdir("."):
+        if re.match(r"v\d", d) and os.path.isdir(d):
+            sizes.append(sum(os.path.getsize(os.path.join(a, f)) for a, _, fs in os.walk(d) for f in fs) / 1048576)
+    return sum(sizes) / len(sizes) if sizes else 40.0
+
+# How many versions fit under the size cap. Thinning only starts when the whole history would not fit.
+BUDGET = int(os.environ.get("BUDGET", 0)) or max(5, int(float(os.environ.get("CAP_MB", "800")) * 0.9 / max(hosted_mb(), 1)))
+if len(rels) <= BUDGET:
+    keep = {r["tagName"] for r in rels}
 while len(keep) < min(BUDGET, len(rels)):
     kept = [i for i, r in enumerate(rels) if r["tagName"] in keep]
     best, gap = None, -1
