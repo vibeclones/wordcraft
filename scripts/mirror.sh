@@ -18,6 +18,10 @@ else
   if [ "$LIMIT" = taste ]; then
     # Thin the history toward the past (see pick.py) instead of taking a hard cutoff.
     tags=$(gh release list -R "$UPSTREAM" --limit 400 --exclude-drafts --exclude-pre-releases --json tagName,publishedAt | python3 scripts/pick.py)
+    # Releases the thinning left out are recorded, so the full history is accounted for.
+    for t in $(gh release list -R "$UPSTREAM" --limit 400 --exclude-drafts --exclude-pre-releases --json tagName -q '.[].tagName'); do
+      echo "$tags" | grep -qx -- "$t" || [ -d "v${t#v}" ] || bash scripts/skip.sh add "${t#v}" "Left out to stay within our storage limit; we keep a spread of versions."
+    done
   else
     tags=$(gh release list -R "$UPSTREAM" --limit "$LIMIT" --exclude-drafts --exclude-pre-releases --json tagName -q '.[].tagName')
   fi
