@@ -14,6 +14,7 @@ while :; do
   oldest=$(find . -maxdepth 1 -type d -name 'v[0-9]*' -printf '%f\n' | sed 's/^v//' | sort -V | head -n1)
   echo "Site is ${size} MB, over the ${CAP_MB} MB cap: dropping v${oldest}"
   rm -rf "v${oldest}"
+  [ -f scripts/skip.sh ] && bash scripts/skip.sh add "$oldest" "Dropped to stay within our storage limit." || true
   removed=$((removed + 1))
 done
 
