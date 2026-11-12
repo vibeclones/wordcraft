@@ -4,10 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>WordCraft</title>
+  <link rel="icon" href="./wordcraft-fa59e09a3f921e03.ico" integrity="sha384-99DzWb82rFgkdw7hjKziyDQaHbMTklb9MWeLKF7LcVUnq80H4nDrc/pjHJtAj/AA"/>
   
 <script type="module">
-import init, * as bindings from './wordcraft-web-d288edabbaf506a2.js';
-const wasm = await init({ module_or_path: './wordcraft-web-d288edabbaf506a2_bg.wasm' });
+import init, * as bindings from './wordcraft-web-bc9cdbc0b42827ee.js';
+const wasm = await init({ module_or_path: './wordcraft-web-bc9cdbc0b42827ee_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -22,7 +23,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
     #wordcraft_loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
       color: #555; font: 14px system-ui, sans-serif; pointer-events: none; }
   </style>
-<link rel="modulepreload" href="./wordcraft-web-d288edabbaf506a2.js" crossorigin="anonymous" integrity="sha384-ZTrCWMSzgZGVvTWr4vgZVvxextt4m0o2Z3ManBaHGU4mcE1GvaDqhsvpOmLYHulq"><link rel="preload" href="./wordcraft-web-d288edabbaf506a2_bg.wasm" crossorigin="anonymous" integrity="sha384-s6BPNknN42JrFZGpzvUwI2lWCrydkx/TGGeHxuw94P5cNG4q7FLFhpGkiUeEYKVd" as="fetch" type="application/wasm"></head>
+<link rel="modulepreload" href="./wordcraft-web-bc9cdbc0b42827ee.js" crossorigin="anonymous" integrity="sha384-13MWN5y1Te2kPv6FIA79b9XEzVT+kENFnB8jPJCvpsrYr3TVPgTg5N9lA04oXUFM"><link rel="modulepreload" href="./snippets/eframe-d31a8450ea12dfc1/inline0.js" crossorigin="anonymous" integrity="sha384-uPZQ72BwgZ4v7Km6+UIFbkDDlt7ShGEsAVEHVN/+wZSGFhItJZB83iKMFQXauTSs"><link rel="preload" href="./wordcraft-web-bc9cdbc0b42827ee_bg.wasm" crossorigin="anonymous" integrity="sha384-EARP0IigCZ3m7rHNm5K0rSs8pTE8W4WdfZpDQp658vLAD47UKzdJoByJ6MazxTsO" as="fetch" type="application/wasm"></head>
 <body>
   <canvas id="wordcraft_canvas"></canvas>
   <div id="wordcraft_loading">Loading WordCraft&hellip;</div>
